@@ -9,14 +9,27 @@
 #import <Foundation/Foundation.h>
 
 @interface CalculatorBrain : NSObject {
-  double operand;
+  // calculator memory
   double memory;
-  NSString *waitingOperation;
+
+  // operand waiting for another digit in order to compute.
+  // eg, in "2 + 3 * (waiting for user input)" the 3 is the waiting operand
   double waitingOperand;
 }
 
-- (void)setOperand:(double)anOperand;
+// operand
+@property double operand;
+
+// operation waiting for a digit in order to execute.
+// eg, in "2 + 3 * (waiting for user input)" the * is the waiting operation
+@property(retain) NSString * waitingOperation;
+
+// error message
+//@property(readonly, retain) NSString * errorMessage;
+
+// perform the given operation on the operand property
 - (double)performOperation:(NSString *)operation;
-- (NSString *)waitingOperation;
+
+// reset the instance's state: clear memory, operand, operation, etc
 - (void)reset;
 @end

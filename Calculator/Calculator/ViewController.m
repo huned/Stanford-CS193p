@@ -18,45 +18,48 @@
 }
 
 - (IBAction)digitPressed:(UIButton *)sender {
-  NSString *digit = [[sender titleLabel] text];
+  NSString *digit = sender.titleLabel.text;
   if (userIsTypingANumber) {
-    BOOL hasDecimal = [[display text] rangeOfString:@"."].location != NSNotFound;
+    BOOL hasDecimal = [display.text rangeOfString:@"."].location != NSNotFound;
     
     // ignore subsequent decimal points
+    // TODO push into model
     if ([digit isEqual:@"."] && hasDecimal)
       return;
     
     // divide by zero
+    // TODO push into model
     if ([digit isEqual:@"0"] && [[brain waitingOperation] isEqual:@"/"]) {
-      [error setText:@"Divide by 0"];
-      [display setText:@"0"];
+      error.text = @"Divide by 0";
+      display.text = @"0";
       [brain reset];
       return;
     }
-    
-    [display setText:[[display text] stringByAppendingString:digit]];
+
+    display.text = [display.text stringByAppendingString:digit];
   } else {
-    [display setText:digit];
+    display.text = digit;
     userIsTypingANumber = YES;
   }
 }
 
 - (IBAction)operationPressed:(UIButton *)sender {
   // negative square root
-  if ([[[sender titleLabel] text] isEqual:@"sqrt"] && [[display text] doubleValue] < 0) {
-    [error setText:@"Negative square root"];
-    [display setText:@"0"];
+  // TODO push into model
+  if ([sender.titleLabel.text isEqual:@"sqrt"] && [display.text doubleValue] < 0) {
+    error.text = @"Negative square root";
+    display.text = @"0";
     [brain reset];
     return;
   }
   
   if (userIsTypingANumber) {
-    [[self brain] setOperand:[[display text] doubleValue]];
+    [[self brain] setOperand:[display.text doubleValue]];
     userIsTypingANumber = NO;
   }
-  NSString *operation = [[sender titleLabel] text];
+  NSString *operation = sender.titleLabel.text;
   double result = [[self brain] performOperation:operation];
-  [display setText:[NSString stringWithFormat:@"%g", result]];
+  display.text =[NSString stringWithFormat:@"%g", result];
 }
 
 @end

@@ -9,14 +9,13 @@
 #import "CalculatorBrain.h"
 
 @implementation CalculatorBrain
+@synthesize operand;
+@synthesize waitingOperation;
+//@synthesize errorMessage;
 
 - (void)reset {
   waitingOperand = operand = memory = 0;
   waitingOperation = nil;
-}
-
-- (void)setOperand:(double)anOperand {
-  operand = anOperand;
 }
 
 - (void)performWaitingOperation
@@ -59,10 +58,6 @@
     waitingOperand = operand;
   }
   return operand;
-}
-
-- (NSString *)waitingOperation {
-  return waitingOperation;
 }
 
 @end
