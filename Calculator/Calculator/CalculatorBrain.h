@@ -25,11 +25,17 @@
 @property(retain) NSString * waitingOperation;
 
 // error message
-//@property(readonly, retain) NSString * errorMessage;
+@property(retain) NSString * errorMessage;
 
 // perform the given operation on the operand property
 - (double)performOperation:(NSString *)operation;
 
 // reset the instance's state: clear memory, operand, operation, etc
 - (void)reset;
+
+// whether or not the operand has a decimal place
+- (BOOL)hasDecimal;
+
+// whether there's an error condition
+- (BOOL)isError;
 @end
